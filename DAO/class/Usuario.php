@@ -54,13 +54,63 @@ class usuario {
 
     public static function listaUsuarios() {
         $sql = new Sql();
-        return $sql->select("SELECT * FROM tbusuario ORDER BY loginusuario");
+        return $sql->select("SELECT * FROM tbusuario ORDER BY idusuario");
     }//listaUsuarios
 
     public static function search($login) {
         $sql = new Sql();
         return $sql->select("SELECT * FROM tbusuario WHERE loginusuario LIKE :SEARCH ORDER BY loginusuario", array(":SEARCH" => "%" . $login . "%"));
     }//search
+
+    public function validaLogin($login, $password) {
+        $sql = new Sql();
+        $result = $sql->select("SELECT * FROM tbusuario WHERE loginusuario = :LOGIN AND senhausuario = :PASSWORD", array(
+            ":LOGIN" => $login,
+            ":PASSWORD" => $password
+        ));
+        if (isset($result[0])) {
+            $row = $result[0];
+            $this->setIdusuario($row['idusuario']);
+            $this->setLoginusuario($row['loginusuario']);
+            $this->setSenhausuario($row['senhausuario']);
+            $this->setDtcadastro(new DateTime($row['dtcadastro']));
+        } else {
+            throw new Exception("Login e/ou senha Inválido");
+        }//ifelse
+    }//validaLogin
+
+    public function insereUsuario($login, $password) {
+        $sql = new Sql();
+        $sql->query("INSERT INTO tbusuario (loginusuario, senhausuario)VALUES(:LOGIN, :PASSWORD)", array(
+            ":LOGIN" => $login,
+            ":PASSWORD" => $password
+        ));
+    }//insereUsuario
+
+    public function updateUsuario($login, $password) {
+        $sql = new Sql();
+        //Jogando os dados que veio do formulhario para a memoria.
+        $this->setLoginusuario($login);
+        $this->setSenhausuario($password);
+
+        $sql->query("UPDATE tbusuario SET loginusuario = :LOGIN, senhausuario = :PASSWORD WHERE idusuario = :ID", array(
+            //recebendo os dados e adicionando no apelido :LOGIN etc..
+            ":LOGIN" => $this->getLoginusuario(),
+            ":PASSWORD" => $this->getSenhausuario(),
+            ":ID" => $this->getIdusuario()
+        ));
+    }//updateUsuario
+
+    public function deleteUsuario() {
+        $sql = new Sql();
+        $sql->query("DELETE FROM tbusuario WHERE idusuario = :ID", array(
+            ":ID" => $this->getIdusuario()
+        ));
+        $this->setIdusuario(0);
+        $this->setLoginusuario("");
+        $this->setSenhausuario("");
+        $this->setDtcadastro(new DateTime());
+    }//deleteUsuario
 
     public function __toString() {
         return json_encode(array(
