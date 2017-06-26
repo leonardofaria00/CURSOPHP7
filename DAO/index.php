@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <!-- Latest compiled and minified CSS -->
@@ -13,12 +12,12 @@
         <meta charset="UTF-8">
         <title></title>
     </head>
-    <body>
-        <h2>Conteúdo aqui</h2>
-        <hr>
+    <body class="container">
+        <div class="page-header" align="center">
+            <h2>Leonardo Faria - CRUD PHP Orientado a Objetos</h2>
+        </div>
     </body>
 </html>
-
 <?php
 // Carrega a classe que estiver sendo instanciada
 require_once("config.php");
@@ -27,14 +26,33 @@ require_once("config.php");
 //$leo = new usuario();
 //$leo->loadById(3);
 //echo $leo;
-
-
+//
 //Carrega uma lista de Usuarios.
-//$lista = usuario::listaUsuarios();
-//echo json_encode($lista);
-
-
+$lista = usuario::listaUsuarios();
+echo json_encode($lista);
+//
 //Carrega uma lista de usuarios buscando pelo Login
-$busca = usuario::search("Leo"); //ATENÇÂO, tem que passar o dado dentro do objeto
-echo json_encode($busca);
-?>
+//$busca = usuario::search("Leo"); //ATENÇÂO, tem que passar o dado dentro do objeto
+//echo json_encode($busca);
+//
+//Carrega o usuario usando Login e Senha.
+//$usuario = new usuario();
+//$usuario->validaLogin("admin", "0000");
+//echo $usuario;
+//
+//Insere usuario no banco de dados.
+//    $usuario = new Usuario();
+//    $usuario->insereUsuario("Filipe", "senha");
+//    echo "Inserido com sucesso!";
+//
+//Altera os dados da tabela
+//$usuario = new usuario();
+//$usuario->loadById(8);
+//$usuario->updateUsuario("DADOS ALTERADOS","123456789");
+//echo $usuario;
+//
+//Deleta os dados da tabela
+//$usuario = new usuario();
+//$usuario->loadById(15);
+//$usuario->deleteUsuario();
+//echo $usuario;
