@@ -1,2 +1,2 @@
-# CURSOPHP7
-Material de PHPOO
+# CursoPHP7
+Criação do repositório para curso Udemy - PHP7
